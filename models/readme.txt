@@ -1,0 +1,1 @@
+This folder will contain all database models of our app.

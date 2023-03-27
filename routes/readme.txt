@@ -1,0 +1,1 @@
+This folder will contain all routes of our app.

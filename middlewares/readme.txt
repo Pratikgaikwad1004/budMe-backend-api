@@ -1,0 +1,1 @@
+This folder will contain all middlewares of our app.
