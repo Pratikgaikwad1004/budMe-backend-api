@@ -37,23 +37,26 @@ router.post('/addevent', async (req, res) => {
     try {
         //destructing req.body
         const { img, title, location, description, institute, time } = req.body;
-        if (!img) {
-            return res.status(402).send("Imag daal");
-        }
         if (!title) {
-            return res.status(402).send("Title daal");
-        }
-        if (!location) {
-            return res.status(402).send("Location daal");
-        }
-        if (!description) {
-            return res.status(402).send("Description daal");
+            return res.json({error : "Please Insert Title"});
         }
         if (!institute) {
-            return res.status(402).send("Institute daal");
+            return res.json({error : "Please specify Institute"});
         }
+        if (!location) {
+            return res.json({error : "Please Insert Location"});
+        }
+        if (!img) {
+            return res.json({error : "Please insert image"});
+        }
+        // if (!date) {
+        //     return res.json({error : "Please Specify Date"});
+        // }
         if (!time) {
-            return res.status(402).send("Time daal");
+            return res.json({error : "Please Specify Date & Time"});
+        }
+        if (!description) {
+            return res.json({error : "Please insert info about event"});
         }
 
         const newEvent = await eventRegister.create({
@@ -66,10 +69,11 @@ router.post('/addevent', async (req, res) => {
         });
 
         if (!newEvent) {
-            return res.send("BHosdike Thik se Apni gaand mara");
+            return res.json({error : "Some error occured"});
         }
 
-        res.send(newEvent);
+        res.json({success : true })
+        // res.send(newEvent);
     } catch (error) {
         return res.send(error)
     }
