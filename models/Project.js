@@ -18,7 +18,8 @@ const project = new Schema({
         require: true,
     },
     author:{
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: "User",
         require: true
     }
 });
