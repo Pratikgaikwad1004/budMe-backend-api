@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const log = require("console");
+const User = require("../models/UserSchema");
 const multer = require('multer')
 // const upload = multer({ dest: 'images/' })
-const collProject = require("../models/Project");
+const userPosts = require("../models/HomePosts");
 
 const storageImage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -33,46 +34,50 @@ router.post('/addimage', uploadImage.single('img'), (req, res) => {
         console.log(error)
     }
 })
-router.post('/addproject', async (req, res) => {
+router.post('/addpost', async (req, res) => {
     try {
         //destructing req.body
-        const { img, title, description, domain, author } = req.body;
+        const { img, title, content, createdBy } = req.body;
         if (!title) {
-            return res.json({error : "Please insert Title"});
+            return res.json({error : "Please insert title"});
         }
-        if (!description) {
-            return res.json({error : "Please specify information about the Project"});
+        
+        if (!content) {
+            return res.json({error : "Please insert location"});
         }
-        if (!domain) {
-            return res.json({error : "Please insert Domain"});
-        }
-        if (!author) {
-            return res.json({error : "Please insert Author details"});
-        }
-        // if (!date) {
-        //     return res.json({error : "Please Specify Date"});
-        // }
-        // if (!time) {
-        //     return res.json({error : "Please Specify Date & Time"});
-        // }
-        // if (!description) {
-        //     return res.json({error : "Please insert info about event"});
-        // }
 
-        const newProject = await collProject.create({
+        if (!img) {
+            return res.json({error : "Please insert image"});
+        }
+        if (!createdBy) {
+            return res.json({error : "Please add the post creator username"});
+        }
+
+        if (!content) {
+            return res.json({error : "Please insert info about event"});
+        }
+        
+        const userId = req.user._id; // assuming user is authenticated and their ID is available in the request object
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.json({ error: "Invalid user ID" });
+        }
+
+        const newPost = await Post.create({
             image: img,
             title: title,
             description: description,
             domain: domain,
-            author: author
+            author: user._id
         });
-
-        if (!newProject) {
+        
+        if (!newPost) {
             return res.json({error : "Some error occured"});
         }
-
         res.json({success : true })
-        // res.send(newEvent);
+        
     } catch (error) {
         return res.send(error)
     }

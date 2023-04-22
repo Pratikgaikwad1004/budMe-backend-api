@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose=require("mongoose");
 const {Schema} = mongoose;
 const project = new Schema({
     image:{
@@ -7,7 +7,7 @@ const project = new Schema({
     },
     title : {
         type: String,
-        require : true
+        require : true,
     },
     description :{
         type: String,
@@ -22,7 +22,7 @@ const project = new Schema({
         require: true
     }
 });
-                                    //name of collection in mongoDB of this schema i.e collabprojects
+                                    //name of collection in mongoDB of this schema i.e events
 const collProject = mongoose.model("collabprojects",project);
 collProject.createIndexes();
 module.exports = collProject;
