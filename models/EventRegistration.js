@@ -24,6 +24,11 @@ const eventRegistration = new Schema({
     time:{
         type: String,
         require: true
+    },
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        require: true
     }
 });
                                     //name of collection in mongoDB of this schema i.e events
