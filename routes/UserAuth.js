@@ -36,7 +36,7 @@ router.post(
             let useremail = req.body.email.toLowerCase();
 
             const user = await User.create({
-                username: req.body.username,
+                name: req.body.username,
                 email: useremail,
                 password: encryptedPassword,
             });
@@ -105,4 +105,22 @@ router.post(
     }
 );
 
+
+router.post("/getusers/:name", async (req, res) => {
+    try {
+        const users = await User.find({name: { "$regex": req.params.name, "$options": "i" }}).select("-password");
+        res.json({users: users})
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/getuser/:id", async (req, res) => {
+    try {
+        const users = await User.findById(req.params.id).select("-password");
+        res.json({user: users})
+    } catch (error) {
+        console.log(error);
+    }
+});
 module.exports = router;
