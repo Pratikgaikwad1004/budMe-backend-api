@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/v1/auth", require("./routes/UserAuth"));
 app.use("/api/v1/event", require("./routes/Events"));
+app.use("/api/v1/project", require("./routes/Projects"));
 
 
 app.listen(port, () => {

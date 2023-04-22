@@ -1,9 +1,8 @@
-const express = require("express");
+const express = require('express')
 const router = express.Router();
 const log = require("console");
 const multer = require('multer')
-// const upload = multer({ dest: 'images/' })
-const eventRegister = require("../models/EventRegistration");
+const projectRegister = require('../models/ProjectRegistration');
 
 const storageImage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -34,47 +33,36 @@ router.post('/addimage', uploadImage.single('img'), (req, res) => {
     }
 })
 
-router.post('/addevent', async (req, res) => {
+router.post('/addproject', async (req, res) => {
     try {
-        //destructing req.body
-        const { img, title, location, description, institute, time } = req.body;
+
+        const { img, title, description, domain } = req.body;
         if (!title) {
             return res.json({error : "Please Insert Title"});
-        }
-        if (!institute) {
-            return res.json({error : "Please specify Institute"});
-        }
-        if (!location) {
-            return res.json({error : "Please Insert Location"});
         }
         if (!img) {
             return res.json({error : "Please insert image"});
         }
-        // if (!date) {
-        //     return res.json({error : "Please Specify Date"});
-        // }
-        if (!time) {
-            return res.json({error : "Please Specify Date & Time"});
+        if (!domain) {
+            return res.json({error : "Please Specify Project Domain"});
         }
         if (!description) {
-            return res.json({error : "Please insert info about event"});
+            return res.json({error : "Please insert info about project"});
         }
 
-        const newEvent = await eventRegister.create({
+        const newProject = await projectRegister.create({
             image: img,
             title: title,
-            location: location,
             description: description,
-            institute: institute,
-            time: time
+            domain: domain,
         });
 
-        if (!newEvent) {
+        if (!newProject) {
             return res.json({error : "Some error occured"});
         }
 
         res.json({success : true })
-        // res.send(newEvent);
+        
     } catch (error) {
         return res.send(error)
     }
