@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const connect = require("./db");
+
 connect();
 const app = express();
 app.use("", express.static("images"));
@@ -13,7 +14,7 @@ app.use(express.json());
 
 app.use("/api/v1/auth", require("./routes/UserAuth"));
 app.use("/api/v1/event", require("./routes/Events"));
-
+app.use("/api/v1/event", require("./routes/CollabProjects"));
 
 app.listen(port, () => {
   console.log(`App is running on http://${host}:${port}`);
