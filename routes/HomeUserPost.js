@@ -4,6 +4,7 @@ const multer = require('multer')
 // const upload = multer({ dest: 'images/' })
 const userPosts = require("../models/HomePosts");
 const User = require("../models/UserSchema");
+const Like = require("../models/LikeSchema");
 
 const storageImage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -76,6 +77,28 @@ router.post("/getallposts", async (req, res) => {
         const posts = await userPosts.find();
 
         res.json({posts: posts})
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/addlike/:postId/:likedBy", async (req, res) => {
+    try {
+        const like = await Like.create({
+            postId: req.params.postId,
+            likedBy: req.params.likedBy
+        })
+
+        res.json({success: true});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/getlikes/:postId", async (req, res) => {
+    try {
+        const likes = await Like.find({ postId: req.params.postId });
+        res.json({likes: likes.length})
     } catch (error) {
         console.log(error);
     }

@@ -5,6 +5,7 @@ const multer = require('multer')
 // const upload = multer({ dest: 'images/' })
 const collProject = require("../models/Project");
 const UserProject = require("../models/UserProjects");
+const User = require("../models/UserSchema");
 
 const storageImage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -131,4 +132,25 @@ router.delete("/leaveproject/:userid/:projectid",async (req, res) => {
         console.log(error);
     }
 });
+
+
+router.post("/getmyproject/:authorid", async (req, res) => {
+    try {
+        const projects = await collProject.find({author: req.params.authorid});
+
+        const userproject = await UserProject.find({projectID: projects.map((ele) => {
+            return ele._id;
+        })});
+
+        const users = await User.find({_id: userproject.map((ele) => {
+            return ele.userId;
+        })}).select("-password")
+        res.send(users);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+
 module.exports = router;
