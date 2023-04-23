@@ -18,7 +18,8 @@ app.use(express.json());
 app.use("/api/v1/auth", require("./routes/UserAuth"));
 app.use("/api/v1/msg", require("./routes/Chat"));
 app.use("/api/v1/event", require("./routes/Events"));
-app.use("/api/v1/project", require("./routes/Events"));
+app.use("/api/v1/project", require("./routes/CollabProjects"));
+app.use("/api/v1/home", require("./routes/HomeUserPost"));
 const server = app.listen(port, () => {
   console.log(`App is running on http://${host}:${port}`);
 });
