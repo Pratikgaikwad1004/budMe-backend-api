@@ -20,6 +20,8 @@ app.use("/api/v1/msg", require("./routes/Chat"));
 app.use("/api/v1/event", require("./routes/Events"));
 app.use("/api/v1/project", require("./routes/CollabProjects"));
 app.use("/api/v1/home", require("./routes/HomeUserPost"));
+app.use("/api/v1/account", require("./routes/Accounts"));
+
 const server = app.listen(port, () => {
   console.log(`App is running on http://${host}:${port}`);
 });
